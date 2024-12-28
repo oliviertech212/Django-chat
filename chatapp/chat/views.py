@@ -11,6 +11,12 @@ from django.shortcuts import redirect, reverse
 # Create your views here.
 @api_view(['POST'])
 def start_convo(request, ):
+    
+    print("request",request.user)  # Debugging: Check if user is populated
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
+    
+    
     data = request.data
     username = data.pop('username')
     try:
