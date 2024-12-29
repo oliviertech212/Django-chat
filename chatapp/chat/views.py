@@ -7,7 +7,10 @@ from .serializers import ConversationListSerializer, ConversationSerializer
 from django.db.models import Q
 from django.shortcuts import redirect, reverse
 
-
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name': room_name
+    })
 # Create your views here.
 @api_view(['POST'])
 def start_convo(request, ):

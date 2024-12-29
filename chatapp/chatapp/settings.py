@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_1mmjg#g7kuf2g&^1g+$6nob(m&128f)4ga8!!sawsbt0t^r+s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     
+    
      # local
     'users',
     'chat',
@@ -69,9 +70,12 @@ MIDDLEWARE = [
 ]
 
 
-
+ 
 
 ROOT_URLCONF = 'chatapp.urls'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 TEMPLATES = [
     {
@@ -94,7 +98,7 @@ TEMPLATES = [
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 CORS_ALLOW_CREDENTIALS = True
 
-WSGI_APPLICATION = 'chatapp.wsgi.application'
+# WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
 # Database
@@ -142,7 +146,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "chat/static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -158,5 +165,27 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.MyUser'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
+ASGI_APPLICATION = "chatapp.asgi.application"
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+
+
+
 
 
