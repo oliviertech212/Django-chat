@@ -4,9 +4,8 @@
   "private": true,
   "dependencies": {
     "cra-template": "1.2.0",
-   "react": "^18.2.0",
-"react-dom": "^18.2.0",
-
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^4.2.4"
   },
@@ -33,5 +32,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ajv": "^7.2.4"
   }
 }
