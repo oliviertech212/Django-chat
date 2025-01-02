@@ -11,9 +11,35 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Ensure this directory exists
+LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_DIR, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,8 +77,9 @@ INSTALLED_APPS = [
     
     
      # local
-    'users',
     'chat',
+    'users',
+   
 ]
 SITE_ID = 1
 
@@ -93,12 +120,21 @@ TEMPLATES = [
     },
 ]
 
-
 # WebSocket settings
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
-CORS_ALLOW_CREDENTIALS = True
 
-# WSGI_APPLICATION = 'chatapp.wsgi.application'
+# CORS settings for WebSockets
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',  # Add any specific allowed origins here
+    'ws://127.0.0.1:8000',    # Add WebSocket endpoint origin
+    'http://localhost:3000'
+]
+
+
+
+WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
 # Database
@@ -164,12 +200,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication', ]
 }
 
-AUTH_USER_MODEL = 'users.MyUser'
+AUTH_USER_MODEL = 'chat.MyUser'
 
 
 CHANNEL_LAYERS = {
     'default': {
-        
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
